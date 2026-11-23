@@ -272,6 +272,25 @@ def draw_footer(image: Image.Image) -> None:
     )
 
 
+def draw_speech_bubble(image: Image.Image) -> None:
+    draw = ImageDraw.Draw(image)
+    white = (255, 255, 255)
+    black = (0, 0, 0)
+    draw.rounded_rectangle(
+        box(90, 610, 355, 748),
+        radius=18 * SCALE,
+        fill=white,
+        outline=black,
+        width=5 * SCALE,
+    )
+    tail = [point(350, 630), point(378, 620), point(350, 650)]
+    draw.polygon(tail, fill=white)
+    draw.line(tail, fill=black, width=5 * SCALE, joint="curve")
+    font = ImageFont.truetype(SANS_BOLD, 30 * SCALE)
+    for y, text in ((625, "I waited so"), (661, "long I became"), (697, "a ghost.")):
+        draw.text(point(103, y), text, font=font, fill=black, anchor="lt")
+
+
 def main() -> None:
     image = Image.new("RGBA", (SIZE * SCALE, SIZE * SCALE), (90, 20, 80, 255))
     draw_background(image)
@@ -280,6 +299,7 @@ def main() -> None:
     draw_foreground(image)
     draw_ghost(image)
     draw_footer(image)
+    draw_speech_bubble(image)
     image = image.convert("RGB").resize((SIZE, SIZE), Image.Resampling.LANCZOS)
     output = Path(__file__).resolve().with_name("meme.png")
     image.save(output, format="PNG", optimize=True)
