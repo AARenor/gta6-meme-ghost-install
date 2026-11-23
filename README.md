@@ -6,4 +6,5 @@ The joke: GTA6 finally arrives after thirteen years, but installing starts the w
 
 ```bash
 python3 draw.py
+python3 draw2.py
 ```
